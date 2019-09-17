@@ -109,9 +109,9 @@ function updateToolTip(chosenXAxis, chosenYAxis, textValues) {
   }
 
   var toolTip = d3.tip()
-    .attr("class", "tooltip")
-    // .attr("class", "d3-tip")
-    .offset([80, -60])
+    // .attr("class", "tooltip")
+    .attr("class", "d3-tip")
+    .offset([-8, 0])
     .html(function(d) {
       return (`${d.state}<br>${labelX} ${d[chosenXAxis]}<br>${labelY} ${d[chosenYAxis]}`);
   });
@@ -130,7 +130,7 @@ function updateToolTip(chosenXAxis, chosenYAxis, textValues) {
 
 
   // Retrieve data from the CSV file and execute everything below
-d3.csv("data/data.csv").then( function(smokesData, err) {
+d3.csv("D3_data_journalism/data/data.csv").then( function(smokesData, err) {
   if (err) throw err;
   console.log(smokesData)
   // parse data
@@ -173,21 +173,22 @@ d3.csv("data/data.csv").then( function(smokesData, err) {
     .attr("fill", "skyblue")
     .attr("stroke", "skyblue")
     .attr("stroke-width", "1")
-    .attr("fill-opacity", ".4")
-
+    .attr("fill-opacity", ".4");
+ 
    //Add Text Element for circles
-  var textValues = chartGroup.selectAll('text.values')
+  var textValues = chartGroup.selectAll(null)
    .data(smokesData)
    .enter()
-   .append('text')
-   .text(d =>d.abbr)
-   .attr("cx", d => xLinearScale(d[chosenXAxis]))
-   .attr("cy", d => yLinearScale(d[chosenYAxis]))
-  //  .text(function(d){return d.abbr;})
-   .attr('fill', 'blue')
-   .attr('font-family','sans-sefir')
-   .attr('font-size', '5px')
-   .attr('text-anchor', 'middle')  
+   .append('text');
+
+   textValues
+    .attr("x", d => xLinearScale(d[chosenXAxis]))
+    .attr("y", d => yLinearScale(d[chosenYAxis]))
+    .text(d =>d.abbr)
+    .attr('fill', 'black')
+    .attr('font-family','sans-sefir')
+    .attr('font-size', '10px')
+    .attr('text-anchor', 'middle')  
 
     // Create group for 2 x- axis labels
   var xlabelsGroup = chartGroup.append("g")
@@ -254,7 +255,7 @@ d3.csv("data/data.csv").then( function(smokesData, err) {
 
         textValues = renderText(textValues, xLinearScale, chosenXAxis, yLinearScale, chosenYAxis);
         // updates tooltips with new info
-        textValues = updateToolTip(chosenXAxis, chosenYAxis, textValues);
+        textValues = updateToolTip(textValues, chosenXAxis, chosenYAxis);
 
          // changes classes to change bold text
          if (chosenXAxis === "income") {
@@ -301,7 +302,7 @@ d3.csv("data/data.csv").then( function(smokesData, err) {
       textValues = renderText(textValues, xLinearScale, chosenXAxis, yLinearScale, chosenYAxis);
       
       // updates tooltips with new info
-      textValues = updateToolTip(chosenXAxis, chosenYAxis, textValues);
+      textValues = updateToolTip(textValues, chosenXAxis, chosenYAxis);
 
        // changes classes to change bold text
        if (chosenYAxis === "poverty") {
