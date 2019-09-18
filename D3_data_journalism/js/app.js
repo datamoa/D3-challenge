@@ -85,8 +85,8 @@ function renderText(textValues, newXScale, chosenXAxis, newYScale, chosenYAxis) 
 
   textValues.transition()
     .duration(1000)
-    .attr("cx", d => (newXScale(d[chosenXAxis])))
-    .attr("cy", d => (newYScale(d[chosenYAxis])));
+    .attr("x", d => (newXScale(d[chosenXAxis])))
+    .attr("y", d => (newYScale(d[chosenYAxis])));
 
   return textValues;
 }
@@ -111,7 +111,7 @@ function updateToolTip(chosenXAxis, chosenYAxis, textValues) {
   var toolTip = d3.tip()
     // .attr("class", "tooltip")
     .attr("class", "d3-tip")
-    .offset([-8, 0])
+    .offset([80,-60])
     .html(function(d) {
       return (`${d.state}<br>${labelX} ${d[chosenXAxis]}<br>${labelY} ${d[chosenYAxis]}`);
   });
@@ -255,7 +255,7 @@ d3.csv("D3_data_journalism/data/data.csv").then( function(smokesData, err) {
 
         textValues = renderText(textValues, xLinearScale, chosenXAxis, yLinearScale, chosenYAxis);
         // updates tooltips with new info
-        textValues = updateToolTip(textValues, chosenXAxis, chosenYAxis);
+        textValues = updateToolTip(chosenXAxis, chosenYAxis, textValues);
 
          // changes classes to change bold text
          if (chosenXAxis === "income") {
@@ -302,7 +302,7 @@ d3.csv("D3_data_journalism/data/data.csv").then( function(smokesData, err) {
       textValues = renderText(textValues, xLinearScale, chosenXAxis, yLinearScale, chosenYAxis);
       
       // updates tooltips with new info
-      textValues = updateToolTip(textValues, chosenXAxis, chosenYAxis);
+      textValues = updateToolTip(chosenXAxis, chosenYAxis, textValues);
 
        // changes classes to change bold text
        if (chosenYAxis === "poverty") {
