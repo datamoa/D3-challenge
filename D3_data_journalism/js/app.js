@@ -111,15 +111,15 @@ function updateToolTip(chosenXAxis, chosenYAxis, textValues) {
   var toolTip = d3.tip()
     // .attr("class", "tooltip")
     .attr("class", "d3-tip")
-    .offset([80,-60])
+    .offset([40,-60])
     .html(function(d) {
       return (`${d.state}<br>${labelX} ${d[chosenXAxis]}<br>${labelY} ${d[chosenYAxis]}`);
   });
 
-  textValues.call(toolTip);
+  svg.call(toolTip);
 
   textValues.on("mouseover", function(data) {
-    toolTip.show(data);
+    toolTip.show(data, this);
   })
     // onmouseout event
     .on("mouseout", function(data) {
